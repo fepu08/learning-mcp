@@ -1,4 +1,7 @@
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import {
+  McpServer,
+  ResourceTemplate,
+} from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import z from 'zod';
 import fs from 'fs/promises';
@@ -12,6 +15,29 @@ const server = new McpServer({
     prompts: {},
   },
 });
+
+server.resource(
+  'users',
+  'users://all', // it can referencing anything file -- the protocol should follow xyz://...
+  {
+    description: 'Get all users data from the database',
+    title: 'Users',
+    mimeType: 'application/json', // what type of data is being returned
+  },
+  async (uri) => {
+    const users = await getUsers();
+
+    return {
+      contents: [
+        {
+          uri: uri.href,
+          text: JSON.stringify(users),
+          mimeType: 'application/json',
+        },
+      ],
+    };
+  }
+);
 
 server.tool(
   'create-user',
@@ -49,9 +75,7 @@ async function createUser(user: {
   address: string;
   phone: string;
 }) {
-  const users = await import('../data/users.json', {
-    with: { type: 'json' },
-  }).then((m) => m.default);
+  const users = await getUsers();
 
   const id = users.length + 1;
 
@@ -65,6 +89,12 @@ async function createUser(user: {
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
+}
+
+async function getUsers() {
+  return await import('../data/users.json', {
+    with: { type: 'json' },
+  }).then((m) => m.default);
 }
 
 main();
