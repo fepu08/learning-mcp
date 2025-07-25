@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "name": "Alice Thornton",
+    "email": "alice.thornton@example.com",
+    "address": "742 Evergreen Terrace, Springfield, IL 62704",
+    "phone": "+1-217-555-0198"
+  },
+  {
+    "id": 2,
+    "name": "Benjamin Carter",
+    "email": "ben.carter@example.com",
+    "address": "19 Riverwalk Drive, Austin, TX 73301",
+    "phone": "+1-512-555-0234"
+  },
+  {
+    "id": 3,
+    "name": "Clara Jensen",
+    "email": "clara.jensen@example.com",
+    "address": "88 Queen Street, Boston, MA 02114",
+    "phone": "+1-617-555-0149"
+  },
+  {
+    "id": 4,
+    "name": "Daniel Kim",
+    "email": "daniel.kim@example.com",
+    "address": "402 Sunset Blvd, Los Angeles, CA 90028",
+    "phone": "+1-323-555-0110"
+  },
+  {
+    "id": 5,
+    "name": "Eva Müller",
+    "email": "eva.muller@example.com",
+    "address": "12 Lindenstraße, Berlin, Germany 10115",
+    "phone": "+49-30-555-0281"
+  }
+]
