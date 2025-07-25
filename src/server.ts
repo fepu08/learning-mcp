@@ -39,6 +39,47 @@ server.resource(
   }
 );
 
+/**
+ * - A URI pattern (with dynamic segments) used to generate or match resource URIs.
+ * - Provides a pattern/template for generating or resolving resource URIs.
+ */
+server.resource(
+  'user-details',
+  new ResourceTemplate('users://{userId}/profile', { list: undefined }),
+  {
+    description: "Get user's details from the database",
+    title: 'User details',
+    mimeType: 'application/json', // what type of data is being returned
+  },
+  async (uri, { userId }) => {
+    const user = (await getUsers()).find(
+      (u) => u.id == parseInt(userId as string)
+    );
+
+    if (user == null) {
+      return {
+        contents: [
+          {
+            uri: uri.href,
+            text: JSON.stringify({ error: 'User not found' }),
+            mimeType: 'application/json',
+          },
+        ],
+      };
+    }
+
+    return {
+      contents: [
+        {
+          uri: uri.href,
+          text: JSON.stringify(user),
+          mimeType: 'application/json',
+        },
+      ],
+    };
+  }
+);
+
 server.tool(
   'create-user',
   'Create a new user in the database',
